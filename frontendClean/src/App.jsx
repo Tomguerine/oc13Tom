@@ -14,7 +14,7 @@ export default function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/profile" element={<ProtectedUserPage />} />
       <Route path="/user" element={<UserPage />} />
-      <Route path="*" eement={<NotFound />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
