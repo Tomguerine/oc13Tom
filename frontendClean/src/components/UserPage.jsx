@@ -10,6 +10,7 @@ function UserPage() {
     const [editing, setEditing] = useState(false);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    const [error, setError] = useState('');
 
     useEffect(() => {
         if (!token) {
@@ -38,6 +39,7 @@ function UserPage() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setError('');
         fetch('/profile', {
             method: 'PUT',
             headers: {
@@ -47,11 +49,18 @@ function UserPage() {
             body: JSON.stringify({ firstName, lastName }),
         })
             .then((res) => res.json())
-            .then(() => {
-                setProfile({ firstName, lastName });
-                setEditing(false);
+            .then((data) => {
+                if (data && data.status === 200) {
+                    setProfile({ firstName, lastName });
+                    setEditing(false);
+                } else {
+                    setError('Failed to update profile');
+                }
             })
-            .catch((err) => console.error('Failed to update profile', err));
+            .catch((err) => {
+                console.error('Failed to update profile', err);
+                setError('Failed to update profile');
+            });
     };
 
     return (
@@ -79,6 +88,7 @@ function UserPage() {
                                     onChange={(e) => setLastName(e.target.value)}
                                 />
                             </div>
+                            {error && <p className="error-message">{error}</p>}
                             <button type="submit" className="save-button">Save</button>
                             <button type="button" className="cancel-button" onClick={() => setEditing(false)}>
                                 Cancel
