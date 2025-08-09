@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearToken } from '../store';
 import logo from '../assets/argentBankLogo.png';
@@ -7,6 +7,7 @@ import logo from '../assets/argentBankLogo.png';
 function MainNav() {
     const token = useSelector((state) => state.auth.token);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [firstName, setFirstName] = useState('');
 
     useEffect(() => {
@@ -40,6 +41,7 @@ function MainNav() {
 
     const handleSignOut = () => {
         dispatch(clearToken());
+        navigate('/');
     };
 
     return (
