@@ -9,11 +9,13 @@ import '../style/main.css';
 function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
         try {
             const response = await fetch('http://localhost:3001/api/v1/user/login', {
                 method: 'POST',
@@ -25,10 +27,10 @@ function LoginPage() {
                 dispatch(setToken(data.body.token));
                 navigate('/profile');
             } else {
-                console.error('Login failed');
+                setError(data.message || 'Login failed');
             }
-        } catch (error) {
-            console.error('Error during login', error);
+        } catch (err) {
+            setError('Error during login');
         }
     };
 
@@ -64,6 +66,7 @@ function LoginPage() {
                         </div>
                         <button type="submit" className="sign-in-button">Sign In</button>
                     </form>
+                    {error && <p className="error">{error}</p>}
                 </section>
             </main>
             <Footer />
