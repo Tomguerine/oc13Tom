@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import MainNav from './MainNav';
 import Footer from './Footer';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { setToken } from '../store';
 import '../style/main.css';
 
@@ -9,6 +10,7 @@ function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -21,6 +23,7 @@ function LoginPage() {
             const data = await response.json();
             if (response.ok && data.body && data.body.token) {
                 dispatch(setToken(data.body.token));
+                navigate('/profile');
             } else {
                 console.error('Login failed');
             }
