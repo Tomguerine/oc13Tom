@@ -62,13 +62,27 @@ function UserPage() {
                     {editing ? (
                         <form className="edit-name-form" onSubmit={handleSubmit}>
                             <div className="input-wrapper">
-                                <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                                <label htmlFor="firstName">First Name</label>
+                                <input
+                                    id="firstName"
+                                    type="text"
+                                    value={firstName}
+                                    onChange={(e) => setFirstName(e.target.value)}
+                                />
                             </div>
                             <div className="input-wrapper">
-                                <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                                <label htmlFor="lastName">Last Name</label>
+                                <input
+                                    id="lastName"
+                                    type="text"
+                                    value={lastName}
+                                    onChange={(e) => setLastName(e.target.value)}
+                                />
                             </div>
                             <button type="submit" className="save-button">Save</button>
-                            <button type="button" className="cancel-button" onClick={() => setEditing(false)}>Cancel</button>
+                            <button type="button" className="cancel-button" onClick={() => setEditing(false)}>
+                                Cancel
+                            </button>
                         </form>
                     ) : (
                         <>

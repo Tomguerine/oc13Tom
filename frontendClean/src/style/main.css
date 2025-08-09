@@ -266,6 +266,17 @@ body {
     padding: 10px;
 }
 
+.edit-name-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.edit-name-form .input-wrapper {
+    flex: 1;
+    margin-bottom: 0;
+}
+
 .save-button,
 .cancel-button {
     border-color: #00bc77;
