@@ -286,6 +286,16 @@ body {
     padding: 10px;
 }
 
+.edit-name-form {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    width: 300px;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    margin: 0 auto;
+}
+
 .header {
     color: #fff;
     margin-bottom: 2rem;
