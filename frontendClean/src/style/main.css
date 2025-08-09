@@ -205,6 +205,10 @@ body {
     font-size: 1.2rem;
 }
 
+.error {
+    color: red;
+}
+
 .footer {
     display: flex;
     justify-content: center;
@@ -262,6 +266,17 @@ body {
     padding: 10px;
 }
 
+.edit-name-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.edit-name-form .input-wrapper {
+    flex: 1;
+    margin-bottom: 0;
+}
+
 .save-button,
 .cancel-button {
     border-color: #00bc77;
@@ -269,6 +284,16 @@ body {
     color: #fff;
     font-weight: bold;
     padding: 10px;
+}
+
+.edit-name-form {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    width: 300px;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    margin: 0 auto;
 }
 
 .header {

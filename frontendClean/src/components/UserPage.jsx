@@ -12,6 +12,7 @@ function UserPage() {
     const [editing, setEditing] = useState(false);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    const [error, setError] = useState('');
 
     useEffect(() => {
         if (!token) {
@@ -41,6 +42,7 @@ function UserPage() {
     const handleSubmit = (e) => {
         e.preventDefault();
         fetch(API_URL, {
+
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -59,8 +61,17 @@ function UserPage() {
                     setLastName(data.body.lastName);
                 }
                 setEditing(false);
+                if (data && data.status === 200) {
+                    setProfile({ firstName, lastName });
+                    setEditing(false);
+                } else {
+                    setError('Failed to update profile');
+                }
             })
-            .catch((err) => console.error('Failed to update profile', err));
+            .catch((err) => {
+                console.error('Failed to update profile', err);
+                setError('Failed to update profile');
+            });
     };
 
     return (
@@ -71,13 +82,28 @@ function UserPage() {
                     {editing ? (
                         <form className="edit-name-form" onSubmit={handleSubmit}>
                             <div className="input-wrapper">
-                                <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                                <label htmlFor="firstName">First Name</label>
+                                <input
+                                    id="firstName"
+                                    type="text"
+                                    value={firstName}
+                                    onChange={(e) => setFirstName(e.target.value)}
+                                />
                             </div>
                             <div className="input-wrapper">
-                                <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                                <label htmlFor="lastName">Last Name</label>
+                                <input
+                                    id="lastName"
+                                    type="text"
+                                    value={lastName}
+                                    onChange={(e) => setLastName(e.target.value)}
+                                />
                             </div>
+                            {error && <p className="error-message">{error}</p>}
                             <button type="submit" className="save-button">Save</button>
-                            <button type="button" className="cancel-button" onClick={() => setEditing(false)}>Cancel</button>
+                            <button type="button" className="cancel-button" onClick={() => setEditing(false)}>
+                                Cancel
+                            </button>
                         </form>
                     ) : (
                         <>
