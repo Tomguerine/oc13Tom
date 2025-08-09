@@ -4,6 +4,8 @@ import MainNav from '../components/MainNav';
 import Footer from '../components/Footer';
 import withAuth from '../components/withAuth';
 
+const API_URL = 'http://localhost:3001/api/v1/user/profile';
+
 function UserPage() {
     const token = useSelector((state) => state.auth.token);
     const [profile, setProfile] = useState({ firstName: '', lastName: '' });
@@ -15,7 +17,7 @@ function UserPage() {
         if (!token) {
             return;
         }
-        fetch('/profile', {
+        fetch(API_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -38,7 +40,7 @@ function UserPage() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetch('/profile', {
+        fetch(API_URL, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -47,8 +49,15 @@ function UserPage() {
             body: JSON.stringify({ firstName, lastName }),
         })
             .then((res) => res.json())
-            .then(() => {
-                setProfile({ firstName, lastName });
+            .then((data) => {
+                if (data && data.body) {
+                    setProfile({
+                        firstName: data.body.firstName,
+                        lastName: data.body.lastName,
+                    });
+                    setFirstName(data.body.firstName);
+                    setLastName(data.body.lastName);
+                }
                 setEditing(false);
             })
             .catch((err) => console.error('Failed to update profile', err));
