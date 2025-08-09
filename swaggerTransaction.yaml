@@ -1,0 +1,187 @@
+openapi: 3.0.3
+info:
+  title: Transactions API
+  version: 1.0.0
+  description: API pour la gestion des transactions.
+
+servers:
+  - url: https://api.example.com
+
+paths:
+  /transactions:
+    get:
+      summary: Liste des transactions du mois groupées par compte
+      description: >
+        Retourne toutes les transactions pour le mois donné (par défaut le mois
+        en cours), regroupées par compte.
+      parameters:
+        - in: query
+          name: month
+          schema:
+            type: string
+            pattern: '^\d{4}-\d{2}$'
+          description: Mois au format YYYY-MM. Si omis, le mois courant est utilisé.
+      responses:
+        '200':
+          description: Liste des comptes avec leurs transactions pour le mois.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountTransactions'
+        '401':
+          description: Authentification requise.
+    post:
+      summary: Ajouter une nouvelle transaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionInput'
+      responses:
+        '201':
+          description: Transaction créée.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '400':
+          description: Données invalides.
+
+  /accounts/{accountId}/transactions:
+    get:
+      summary: Transactions d'un compte
+      description: >
+        Retourne les transactions pour un compte donné. Permet de filtrer par mois.
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: month
+          schema:
+            type: string
+            pattern: '^\d{4}-\d{2}$'
+          description: Mois au format YYYY-MM. Si omis, le mois courant est utilisé.
+      responses:
+        '200':
+          description: Transactions du compte pour le mois spécifié.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+        '404':
+          description: Compte ou transaction non trouvée.
+
+  /transactions/{transactionId}:
+    get:
+      summary: Détails d'une transaction
+      parameters:
+        - in: path
+          name: transactionId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Informations sur la transaction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '404':
+          description: Transaction non trouvée.
+    put:
+      summary: Mettre à jour une transaction
+      parameters:
+        - in: path
+          name: transactionId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionInput'
+      responses:
+        '200':
+          description: Transaction mise à jour.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '400':
+          description: Données invalides.
+        '404':
+          description: Transaction non trouvée.
+    delete:
+      summary: Supprimer une transaction
+      parameters:
+        - in: path
+          name: transactionId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Transaction supprimée avec succès.
+        '404':
+          description: Transaction non trouvée.
+
+components:
+  schemas:
+    Transaction:
+      type: object
+      required: [id, accountId, date, amount]
+      properties:
+        id:
+          type: integer
+        accountId:
+          type: integer
+        date:
+          type: string
+          format: date
+        amount:
+          type: number
+          format: float
+        description:
+          type: string
+        category:
+          type: string
+
+    TransactionInput:
+      type: object
+      required: [accountId, date, amount]
+      properties:
+        accountId:
+          type: integer
+        date:
+          type: string
+          format: date
+        amount:
+          type: number
+          format: float
+        description:
+          type: string
+        category:
+          type: string
+
+    AccountTransactions:
+      type: object
+      properties:
+        accountId:
+          type: integer
+        accountName:
+          type: string
+        transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transaction'
