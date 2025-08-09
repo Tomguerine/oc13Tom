@@ -8,10 +8,12 @@ import '../style/main.css';
 function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
     const dispatch = useDispatch();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
         try {
             const response = await fetch('http://localhost:3001/api/v1/user/login', {
                 method: 'POST',
@@ -22,10 +24,10 @@ function LoginPage() {
             if (response.ok && data.body && data.body.token) {
                 dispatch(setToken(data.body.token));
             } else {
-                console.error('Login failed');
+                setError(data.message || 'Login failed');
             }
-        } catch (error) {
-            console.error('Error during login', error);
+        } catch (err) {
+            setError('Error during login');
         }
     };
 
@@ -61,6 +63,7 @@ function LoginPage() {
                         </div>
                         <button type="submit" className="sign-in-button">Sign In</button>
                     </form>
+                    {error && <p className="error">{error}</p>}
                 </section>
             </main>
             <Footer />

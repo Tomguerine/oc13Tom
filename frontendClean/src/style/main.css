@@ -205,6 +205,10 @@ body {
     font-size: 1.2rem;
 }
 
+.error {
+    color: red;
+}
+
 .footer {
     display: flex;
     justify-content: center;
