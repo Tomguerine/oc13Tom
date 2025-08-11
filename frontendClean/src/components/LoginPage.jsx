@@ -10,6 +10,7 @@ function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [rememberMe, setRememberMe] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -25,11 +26,17 @@ function LoginPage() {
             const data = await response.json();
             if (response.ok && data.body && data.body.token) {
                 dispatch(setToken(data.body.token));
+                if (rememberMe) {
+                    localStorage.setItem('token', data.body.token);
+                } else {
+                    localStorage.removeItem('token');
+                }
                 navigate('/profile');
             } else {
                 setError(data.message || 'Login failed');
             }
         } catch (err) {
+            console.error('Error during login', err);
             setError('Error during login');
         }
     };
@@ -61,7 +68,12 @@ function LoginPage() {
                             />
                         </div>
                         <div className="input-remember">
-                            <input type="checkbox" id="remember-me" />
+                            <input
+                                type="checkbox"
+                                id="remember-me"
+                                checked={rememberMe}
+                                onChange={(e) => setRememberMe(e.target.checked)}
+                            />
                             <label htmlFor="remember-me">Remember me</label>
                         </div>
                         <button type="submit" className="sign-in-button">Sign In</button>

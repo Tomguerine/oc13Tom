@@ -40,6 +40,7 @@ function MainNav() {
     }, [token]);
 
     const handleSignOut = () => {
+        localStorage.removeItem('token');
         dispatch(clearToken());
         navigate('/');
     };
