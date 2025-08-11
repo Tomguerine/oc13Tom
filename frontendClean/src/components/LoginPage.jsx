@@ -3,7 +3,7 @@ import MainNav from './MainNav';
 import Footer from './Footer';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { setToken } from '../store';
+import { setToken, setUser } from '../store';
 import '../style/main.css';
 
 function LoginPage() {
@@ -25,11 +25,32 @@ function LoginPage() {
             });
             const data = await response.json();
             if (response.ok && data.body && data.body.token) {
-                dispatch(setToken(data.body.token));
+                const token = data.body.token;
+                dispatch(setToken(token));
                 if (rememberMe) {
-                    localStorage.setItem('token', data.body.token);
+                    localStorage.setItem('token', token);
                 } else {
                     localStorage.removeItem('token');
+                }
+                try {
+                    const profileRes = await fetch('http://localhost:3001/api/v1/user/profile', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+                    if (profileRes.ok) {
+                        const profileData = await profileRes.json();
+                        if (profileData && profileData.body) {
+                            dispatch(setUser({
+                                firstName: profileData.body.firstName,
+                                lastName: profileData.body.lastName,
+                            }));
+                        }
+                    }
+                } catch (err) {
+                    console.error('Failed to fetch user profile', err);
                 }
                 navigate('/profile');
             } else {
