@@ -122,19 +122,6 @@ paths:
           description: Données invalides.
         '404':
           description: Transaction non trouvée.
-    delete:
-      summary: Supprimer une transaction
-      parameters:
-        - in: path
-          name: transactionId
-          required: true
-          schema:
-            type: integer
-      responses:
-        '204':
-          description: Transaction supprimée avec succès.
-        '404':
-          description: Transaction non trouvée.
 
 components:
   schemas:
