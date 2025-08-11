@@ -94,7 +94,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TransactionInput'
+              $ref: '#/components/schemas/TransactionUpdate'
       responses:
         '200':
           description: Transaction mise à jour.
@@ -124,26 +124,19 @@ components:
         amount:
           type: number
           format: float
+        name:
+          type: string
         description:
           type: string
         category:
           type: string
 
-    TransactionInput:
+    TransactionUpdate:
       type: object
-      required: [accountId, date, amount]
       properties:
-        accountId:
-          type: integer
-        date:
+        name:
           type: string
-          format: date
-        amount:
-          type: number
-          format: float
         description:
-          type: string
-        category:
           type: string
 
     AccountTransactions:
