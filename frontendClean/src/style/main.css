@@ -293,10 +293,11 @@ body {
 .edit-name-form input[type="text"] {
     width: 180px;
     height: 28px;
-    border: 1px solid #dcdcdc;
-    border-radius: 4px;
+    border: 2px solid #6d28d9;
+    border-radius: 2px;
     background: #fff;
     padding: 0 8px;
+    color: #808080;
 }
 
 .edit-name-form input[type="text"]::placeholder {
