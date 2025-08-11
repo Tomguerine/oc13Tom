@@ -60,13 +60,10 @@ function UserPage() {
                     dispatch(setUser({ firstName: updatedFirst, lastName: updatedLast }));
                 }
                 setEditing(false);
-                if (!(data && data.status === 200)) {
-                    setError('Failed to update profile');
-                }
+
             })
             .catch((err) => {
                 console.error('Failed to update profile', err);
-                setError('Failed to update profile');
             });
     };
 
