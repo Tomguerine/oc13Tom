@@ -319,11 +319,13 @@ body {
 .button-row button {
     color: #6d28d9;
     background: none;
-    border: none;
-    height: 28px;
+    border: 2px solid #6d28d9;
+    border-radius: 2px;
+    height: 36px;
     margin: 0 12px;
+    padding: 0 1rem;
     cursor: pointer;
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 .button-row button:hover {
