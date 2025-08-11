@@ -325,4 +325,27 @@ body {
     .transaction-button {
         width: 200px;
     }
+
+
+}
+
+
+.sign-out-link {
+    display: inline-flex;
+    align-items: center;
+    color: #374151;
+    background: white;
+    font-family: sans-serif;
+    font-size: 20px;
+    padding: 0 8px;
+    border: none;
+    cursor: pointer;
+}
+
+.sign-out-link i {
+    margin-right: 4px;
+}
+
+.sign-out-link:hover {
+    color: #1f2937;
 }
