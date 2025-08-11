@@ -30,9 +30,9 @@ function MainNav() {
                             <i className="fa fa-user-circle"></i>
                             {' '}{firstName}
                         </Link>
-                        <button className="main-nav-item" onClick={handleSignOut}>
+                        <button className="main-nav-item sign-out-link" onClick={handleSignOut}>
                             <i className="fa fa-sign-out"></i>
-                            {' '}Sign Out
+                            Sign out
                         </button>
                     </>
                 ) : (
