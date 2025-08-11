@@ -17,9 +17,30 @@ const authSlice = createSlice({
 
 export const { setToken, clearToken } = authSlice.actions;
 
+const userSlice = createSlice({
+  name: 'user',
+  initialState: {
+    firstName: '',
+    lastName: '',
+  },
+  reducers: {
+    setUser: (state, action) => {
+      state.firstName = action.payload.firstName;
+      state.lastName = action.payload.lastName;
+    },
+    clearUser: (state) => {
+      state.firstName = '';
+      state.lastName = '';
+    },
+  },
+});
+
+export const { setUser, clearUser } = userSlice.actions;
+
 const store = configureStore({
   reducer: {
     auth: authSlice.reducer,
+    user: userSlice.reducer,
   },
 });
 

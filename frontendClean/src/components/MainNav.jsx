@@ -1,47 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearToken } from '../store';
+import { clearToken, clearUser } from '../store';
 import logo from '../assets/argentBankLogo.png';
 
 function MainNav() {
     const token = useSelector((state) => state.auth.token);
+    const firstName = useSelector((state) => state.user.firstName);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [firstName, setFirstName] = useState('');
-
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const res = await fetch('http://localhost:3001/api/v1/user/profile', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                if (res.ok) {
-                    const data = await res.json();
-                    setFirstName(data.body.firstName);
-                } else {
-                    setFirstName('');
-                }
-            } catch (error) {
-                console.error('Failed to fetch user profile', error);
-                setFirstName('');
-            }
-        };
-
-        if (token) {
-            fetchUser();
-        } else {
-            setFirstName('');
-        }
-    }, [token]);
 
     const handleSignOut = () => {
         localStorage.removeItem('token');
         dispatch(clearToken());
+        dispatch(clearUser());
         navigate('/');
     };
 

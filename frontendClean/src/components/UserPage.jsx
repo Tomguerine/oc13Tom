@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import MainNav from '../components/MainNav';
 import Footer from '../components/Footer';
 import withAuth from '../components/withAuth';
+import { setUser } from '../store';
 
 const API_URL = 'http://localhost:3001/api/v1/user/profile';
 
 function UserPage() {
     const token = useSelector((state) => state.auth.token);
+    const dispatch = useDispatch();
     const [profile, setProfile] = useState({ firstName: '', lastName: '' });
     const [editing, setEditing] = useState(false);
     const [firstName, setFirstName] = useState('');
@@ -28,21 +30,19 @@ function UserPage() {
             .then((res) => res.json())
             .then((data) => {
                 if (data && data.body) {
-                    setProfile({
-                        firstName: data.body.firstName,
-                        lastName: data.body.lastName,
-                    });
-                    setFirstName(data.body.firstName);
-                    setLastName(data.body.lastName);
+                    const { firstName, lastName } = data.body;
+                    setProfile({ firstName, lastName });
+                    setFirstName(firstName);
+                    setLastName(lastName);
+                    dispatch(setUser({ firstName, lastName }));
                 }
             })
             .catch((err) => console.error('Failed to fetch profile', err));
-    }, [token]);
+    }, [token, dispatch]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         fetch(API_URL, {
-
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -53,18 +53,14 @@ function UserPage() {
             .then((res) => res.json())
             .then((data) => {
                 if (data && data.body) {
-                    setProfile({
-                        firstName: data.body.firstName,
-                        lastName: data.body.lastName,
-                    });
-                    setFirstName(data.body.firstName);
-                    setLastName(data.body.lastName);
+                    const { firstName: updatedFirst, lastName: updatedLast } = data.body;
+                    setProfile({ firstName: updatedFirst, lastName: updatedLast });
+                    setFirstName(updatedFirst);
+                    setLastName(updatedLast);
+                    dispatch(setUser({ firstName: updatedFirst, lastName: updatedLast }));
                 }
                 setEditing(false);
-                if (data && data.status === 200) {
-                    setProfile({ firstName, lastName });
-                    setEditing(false);
-                } else {
+                if (!(data && data.status === 200)) {
                     setError('Failed to update profile');
                 }
             })
