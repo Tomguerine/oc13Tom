@@ -79,7 +79,6 @@ function UserPage() {
                         <form className="edit-name-form" onSubmit={handleSubmit}>
                             <div className="inputs-row">
                                 <div className="input-wrapper">
-                                    <label htmlFor="firstName">First Name</label>
                                     <input
                                         id="firstName"
                                         type="text"
@@ -88,7 +87,6 @@ function UserPage() {
                                     />
                                 </div>
                                 <div className="input-wrapper">
-                                    <label htmlFor="lastName">Last Name</label>
                                     <input
                                         id="lastName"
                                         type="text"
