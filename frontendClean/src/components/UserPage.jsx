@@ -77,29 +77,37 @@ function UserPage() {
                 <div className="header">
                     {editing ? (
                         <form className="edit-name-form" onSubmit={handleSubmit}>
-                            <div className="input-wrapper">
-                                <label htmlFor="firstName">First Name</label>
-                                <input
-                                    id="firstName"
-                                    type="text"
-                                    value={firstName}
-                                    onChange={(e) => setFirstName(e.target.value)}
-                                />
-                            </div>
-                            <div className="input-wrapper">
-                                <label htmlFor="lastName">Last Name</label>
-                                <input
-                                    id="lastName"
-                                    type="text"
-                                    value={lastName}
-                                    onChange={(e) => setLastName(e.target.value)}
-                                />
+                            <div className="inputs-row">
+                                <div className="input-wrapper">
+                                    <label htmlFor="firstName">First Name</label>
+                                    <input
+                                        id="firstName"
+                                        type="text"
+                                        value={firstName}
+                                        onChange={(e) => setFirstName(e.target.value)}
+                                    />
+                                </div>
+                                <div className="input-wrapper">
+                                    <label htmlFor="lastName">Last Name</label>
+                                    <input
+                                        id="lastName"
+                                        type="text"
+                                        value={lastName}
+                                        onChange={(e) => setLastName(e.target.value)}
+                                    />
+                                </div>
                             </div>
                             {error && <p className="error-message">{error}</p>}
-                            <button type="submit" className="save-button">Save</button>
-                            <button type="button" className="cancel-button" onClick={() => setEditing(false)}>
-                                Cancel
-                            </button>
+                            <div className="button-row">
+                                <button type="submit" className="save-button">Save</button>
+                                <button
+                                    type="button"
+                                    className="cancel-button"
+                                    onClick={() => setEditing(false)}
+                                >
+                                    Cancel
+                                </button>
+                            </div>
                         </form>
                     ) : (
                         <>
