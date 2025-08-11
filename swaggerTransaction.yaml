@@ -32,23 +32,7 @@ paths:
                   $ref: '#/components/schemas/AccountTransactions'
         '401':
           description: Authentification requise.
-    post:
-      summary: Ajouter une nouvelle transaction
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TransactionInput'
-      responses:
-        '201':
-          description: Transaction créée.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Transaction'
-        '400':
-          description: Données invalides.
+
 
   /accounts/{accountId}/transactions:
     get:
@@ -122,19 +106,7 @@ paths:
           description: Données invalides.
         '404':
           description: Transaction non trouvée.
-    delete:
-      summary: Supprimer une transaction
-      parameters:
-        - in: path
-          name: transactionId
-          required: true
-          schema:
-            type: integer
-      responses:
-        '204':
-          description: Transaction supprimée avec succès.
-        '404':
-          description: Transaction non trouvée.
+
 
 components:
   schemas:
