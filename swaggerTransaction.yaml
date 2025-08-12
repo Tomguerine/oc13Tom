@@ -33,7 +33,6 @@ paths:
         '401':
           description: Authentification requise.
 
-
   /accounts/{accountId}/transactions:
     get:
       summary: Transactions d'un compte
@@ -82,7 +81,7 @@ paths:
         '404':
           description: Transaction non trouvée.
     put:
-      summary: Mettre à jour une transaction
+      summary: Mettre à jour une transaction (note et catégorie uniquement)
       parameters:
         - in: path
           name: transactionId
@@ -107,7 +106,6 @@ paths:
         '404':
           description: Transaction non trouvée.
 
-
 components:
   schemas:
     Transaction:
@@ -126,7 +124,7 @@ components:
           format: float
         name:
           type: string
-        description:
+        note:
           type: string
         category:
           type: string
@@ -134,9 +132,9 @@ components:
     TransactionUpdate:
       type: object
       properties:
-        name:
+        note:
           type: string
-        description:
+        category:
           type: string
 
     AccountTransactions:
